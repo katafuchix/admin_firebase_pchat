@@ -1,6 +1,100 @@
+<!-- Content Header (Page header) -->
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark"></h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"></li>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
 
-<% @users.each do |user| %>
-  <%= user.data[:nickname] %>
-  <br>
-  <img src="<%= user.data[:profile_image_url] %>" width="200">
-<% end %>
+<!-- Main content -->
+<div class="content">
+  <div class="container-fluid">
+
+    <div class="row">
+
+      <!-- /.col-md-6 -->
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-header border-0">
+            <h3 class="card-title">Products</h3>
+            <div class="card-tools">
+              <a href="#" class="btn btn-tool btn-sm">
+                <i class="fas fa-download"></i>
+              </a>
+              <a href="#" class="btn btn-tool btn-sm">
+                <i class="fas fa-bars"></i>
+              </a>
+            </div>
+          </div>
+          <div class="card-body table-responsive p-0">
+            <table class="table table-striped table-valign-middle">
+              <thead>
+              <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Sales</th>
+                <th>Sales</th>
+                <th>More</th>
+              </tr>
+              </thead>
+              <tbody>
+
+              <% @users.each do |user| %>
+              <tr>
+                <td>
+                  <img src="<%= user.data[:profile_image_url] %>" class="img img-size-64">&nbsp;&nbsp;
+                  <%= user.data[:nickname] %>
+                </td>
+                <td><%= user.data[:age] %></td>
+                <td>
+                  <%= user.data[:profile_text] %>
+                </td>
+                <td>
+                    <%= user.data[:created_at] %>
+                </td>
+                <td>
+                  <a href="#" class="text-muted">
+                    <%= user.data[:last_login_date] %>
+                  </a>
+                </td>
+              </tr>
+              <% end %>
+
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <!-- /.card -->
+
+        <div class="card-footer clearfix">
+
+          <ul class="pagination justify-content-center">
+
+            <% @pagination.each do |key, value| %>
+              <li class="page-item<%= ' active' if value == @current %>">
+                <%= link_to key, index_index_path(page: value), class: 'page-link' %>
+              </li>
+            <% end %>
+
+          </ul>
+
+        </div>
+
+      </div>
+      <!-- /.col-md-6 -->
+    </div>
+    <!-- /.row -->
+
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
