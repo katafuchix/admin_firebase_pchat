@@ -1,0 +1,6 @@
+
+<% @users.each do |user| %>
+  <%= user.data[:nickname] %>
+  <br>
+  <img src="<%= user.data[:profile_image_url] %>" width="200">
+<% end %>
