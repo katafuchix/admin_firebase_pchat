@@ -1,0 +1,46 @@
+<!-- Main Sidebar Container -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+  <!-- Brand Logo -->
+  <%= link_to index_index_path, class:"brand-link" do %>
+    <img src="<%= image_path 'AdminLTELogo.png' %>" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+         style="opacity: .8">
+    <span class="brand-text font-weight-light">MENU</span>
+  <% end %>
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="info bg-gray-dark">
+      </div>
+    </div>
+
+    <!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class
+             with font-awesome or any other icon font library -->
+
+        <li class="nav-item">
+        </li>
+      </ul>
+    </nav>
+    <!-- /.sidebar-menu -->
+  </div>
+  <!-- /.sidebar -->
+</aside>
+
+<script>
+$(function () {
+var url = window.location;
+//console.log(url);
+$('ul.nav-sidebar a').filter(function() {
+  return this.href == url || url.href.indexOf(this.href) == 0;
+}).addClass('active');
+
+$('ul.nav-sidebar a').filter(function() {
+  return this.href == url || url.href.indexOf(this.href) == 0;
+}).parent().parent().parent().addClass('menu-open');
+});
+</script>
