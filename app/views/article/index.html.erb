@@ -26,7 +26,7 @@
 
         <div class="card">
           <div class="card-header border-0">
-            <h3 class="card-title">Users</h3>
+            <h3 class="card-title">Article</h3>
             <div class="card-tools">
               <a href="#" class="btn btn-tool btn-sm">
                 <i class="fas fa-download"></i>
@@ -42,7 +42,6 @@
               <tr>
                 <th>name</th>
                 <th>age</th>
-                <th>status</th>
                 <th>profile text</th>
                 <th>created at</th>
                 <th>last login</th>
@@ -50,23 +49,22 @@
               </thead>
               <tbody>
 
-              <% @users.each do |user| %>
+              <% @articles.each do |article| %>
               <tr>
                 <td>
-                  <img src="<%= user.data[:profile_image_url] %>" class="img img-size-64">&nbsp;&nbsp;
-                  <%= user.data[:nickname] %>
+                  <img src="<%= article.data[:user_profile_image_url] %>" class="img img-size-64">&nbsp;&nbsp;
+                  <%= article.data[:user_nickname] %>
                 </td>
-                <td><%= user.data[:age] %></td>
-                <td><%= user.data[:status] %></td>
+                <td><%= article.data[:status] %></td>
                 <td>
-                  <%= user.data[:profile_text] %>
+                  <%= article.data[:text] %>
                 </td>
                 <td>
-                    <%= user.data[:created_at] %>
+                    <%= article.data[:created_at] %>
                 </td>
                 <td>
                   <a href="#" class="text-muted">
-                    <%= user.data[:last_login_date] %>
+                    <%= article.data[:last_login_date] %>
                   </a>
                 </td>
               </tr>
@@ -84,7 +82,7 @@
 
             <% @pagination.each do |key, value| %>
               <li class="page-item<%= ' active' if value == @current %>">
-                <%= link_to key, index_index_path(page: value, document_id: @last_user.document_id), class: 'page-link' %>
+                <%= link_to key, article_index_path(page: value, document_id: @last_article.document_id), class: 'page-link' %>
               </li>
             <% end %>
 

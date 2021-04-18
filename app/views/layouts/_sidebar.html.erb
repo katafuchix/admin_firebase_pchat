@@ -23,6 +23,20 @@
              with font-awesome or any other icon font library -->
 
         <li class="nav-item">
+          <%= link_to index_index_path, class:"nav-link" do %>
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              ユーザー
+            </p>
+          <% end %>
+        </li>
+        <li class="nav-item">
+          <%= link_to article_index_path, class:"nav-link" do %>
+            <i class="nav-icon fas fa-th"></i>
+            <p>
+              投稿
+            </p>
+          <% end %>
         </li>
       </ul>
     </nav>

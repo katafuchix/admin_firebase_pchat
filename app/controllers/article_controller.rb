@@ -1,13 +1,13 @@
-class IndexController < ApplicationController
+class ArticleController < ApplicationController
   def index
     @page = params['page'].to_i || 1
     @created_at = params['created_at'] || ''
     @document_id = params['document_id'] || ''
 
     firestore = Firestore::Base.client
+    articles_ref = Firestore::Article.repo
 
-    users_ref = Firestore::LoginUser.repo
-    item_total =  Firestore::LoginUser.all.size #users_ref.get.map{|item| item[:id]}.size
+    item_total =  Firestore::Article.all.size #users_ref.get.map{|item| item[:id]}.size
 
     all_page = (item_total / 20).ceil
 
@@ -33,20 +33,23 @@ class IndexController < ApplicationController
     #users_ref = firestore.col("login_user")
 
     if @document_id != ''
-      user = Firestore::LoginUser.find(@document_id)
-      query = users_ref.where("created_at", '<', user[:created_at]).order("created_at", "desc").limit(20)
+      p '@document_id'
+      p @document_id
+      article = Firestore::Article.find(@document_id)
+      p article
+      query = articles_ref.where("created_at", '<', article[:created_at]).order("created_at", "desc").limit(20)
     else
-      query = users_ref.order("created_at", "desc").limit(20) #.where "id", "=", 1
+      query = articles_ref.order("created_at", "desc").limit(20) #.where "id", "=", 1
     end
 
     #query.get do |city|
     #  puts "#{city.document_id} data: #{city.data}."
     #end
 
-    @users = query.get
+    @articles = query.get
     #p @users.sort_by {|v| v.created_at }.sort.reverse
     #p @users.sort_by {|v| v.created_at }.map{|item| item[:nickname]}
     #p @users.sort_by {|v| v.created_at }.reverse.last
-    @last_user = @users.sort_by {|v| v.created_at }.reverse.last
+    @last_article = @articles.sort_by {|v| v.created_at }.reverse.last
   end
 end
