@@ -39,6 +39,8 @@
           <div class="card-body">
             <%= render partial: 'tab' %>
 
+            <%= form_with(model: @post_user, :url => {:action => :update }, :method => :patch , multipart: true) do |form| %>
+
             <!-- row -->
             <div class="row">
               <div class="col-md-12">
@@ -82,17 +84,25 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label class="control-label">ニックネーム</label>
-                  <div class="col-xs-8"><%= @user[:nickname] %></div>
+                  <div class="col-xs-8">
+                    <%= form.text_field :nickname, value:@user[:nickname], class:"form-control" %>
+                  </div>
                 </div>
               </div>
               <div class="col-md-8">
                 <div class="form-group">
                   <label class="control-label">自己紹介</label>
-                  <div class="col-xs-4"><%= @user[:profile_text] %></div>
+                  <div class="col-xs-4">
+                    <%= form.text_area :profile_text, value:@user[:profile_text], class: 'form-control', size: "5x3" %>
+                  </div>
                 </div>
               </div>
             </div>
             <!-- /.row -->
+
+            <%= form.submit '更新' , class:"btn btn-sm btn-primary" %>
+
+            <% end %>
 
           </div>
         </div>

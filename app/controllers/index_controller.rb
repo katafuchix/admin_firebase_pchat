@@ -1,4 +1,6 @@
 class IndexController < ApplicationController
+  before_action :set_user, only: [:show, :destroy, :edit, :update,]
+
   def index
     @page = (params['page'] || 1).to_i
     @created_at = params['created_at'] || ''
@@ -14,7 +16,7 @@ class IndexController < ApplicationController
     @max_page = all_page
     @current = @page
     @pagination = {}
-    @pagination['≪'] = 1 if @current >= 3
+    @pagination['â‰ª'] = 1 if @current >= 3
     @pagination['<'] = @current - 1 if @current != 1
 
     if @current + 2 >= @max_page
@@ -28,7 +30,7 @@ class IndexController < ApplicationController
     end
 
     @pagination['>'] = @current + 1 if @current != @max_page
-    @pagination['≫'] = @max_page if @current <= @max_page - 3
+    @pagination['â‰«'] = @max_page if @current <= @max_page - 3
 
     #users_ref = firestore.col("login_user")
 
@@ -52,5 +54,30 @@ class IndexController < ApplicationController
 
   def show
   end
-  
+
+  def edit
+    @post_user = UserForm.new
+    @post_user.id = @user[:documentId]
+    p @post_user
+  end
+
+  def update
+    p = update_user_params
+    p update_user_params
+
+    #flash[:notice] = 'プロフィールを更新しました。'
+    redirect_back(fallback_location: index_index_path)
+  end
+
+  private
+
+  def set_user
+    @user = Firestore::LoginUser.find(params[:id])
+    p @user
+  end
+
+  def update_user_params
+    params.require(:user_form).permit(:nickname, :profile_text)
+  end
+
 end
