@@ -52,7 +52,11 @@
               <% @articles.each do |article| %>
               <tr>
                 <td>
-                  <img src="<%= article.data[:user_profile_image_url] %>" class="img img-size-64">&nbsp;&nbsp;
+                  <% if article.data[:user_profile_image_url].present? %>
+                    <img src="<%= article.data[:user_profile_image_url] %>" class="img img-size-64">&nbsp;&nbsp;
+                  <% else %>
+                    <%= image_tag 'user_profile_default_icon/no_avatar.png', class: "img img-size-64" %>
+                  <% end %>
                   <%= article.data[:user_nickname] %>
                 </td>
                 <td><%= article.data[:status] %></td>

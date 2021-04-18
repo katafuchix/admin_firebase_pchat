@@ -1,6 +1,6 @@
 class IndexController < ApplicationController
   def index
-    @page = params['page'].to_i || 1
+    @page = (params['page'] || 1).to_i
     @created_at = params['created_at'] || ''
     @document_id = params['document_id'] || ''
 
