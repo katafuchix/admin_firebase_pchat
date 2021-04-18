@@ -52,4 +52,8 @@ class ArticleController < ApplicationController
     #p @users.sort_by {|v| v.created_at }.reverse.last
     @last_article = @articles.sort_by {|v| v.created_at }.reverse.last
   end
+
+  def show
+  end
+  
 end

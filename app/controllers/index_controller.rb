@@ -49,4 +49,8 @@ class IndexController < ApplicationController
     #p @users.sort_by {|v| v.created_at }.reverse.last
     @last_user = @users.sort_by {|v| v.created_at }.reverse.last
   end
+
+  def show
+  end
+  
 end

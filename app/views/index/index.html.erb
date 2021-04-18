@@ -37,7 +37,7 @@
             </div>
           </div>
           <div class="card-body table-responsive p-0">
-            <table class="table table-striped table-valign-middle">
+            <table class="table table-valign-middle table-hover">
               <thead>
               <tr>
                 <th>name</th>
@@ -51,7 +51,7 @@
               <tbody>
 
               <% @users.each do |user| %>
-              <tr>
+              <tr class="clickable-row" data-href="<%= url_for("/index/#{user.document_id}") %>">
                 <td align="center">
                   <% if user.data[:profile_image_url].present? %>
                     <img src="<%= user.data[:profile_image_url] %>" class="img img-size-64">&nbsp;&nbsp;
