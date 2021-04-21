@@ -11,13 +11,15 @@ class IndexController < ApplicationController
     item_total = all_list.size
     page_ids   = all_list.map { |user| user[:documentId] }.each_slice(20).map { |n| n.first }
     #p page_ids
+    #p all_list.last
+    #p item_total
 
-    all_page = (item_total / 20).ceil
+    all_page = (item_total / 20).ceil + 1
 
     @max_page = all_page
     @current = @page
     @pagination = {}
-    @pagination['最初'] = 1 if @current >= 3
+    @pagination['<<'] = 1 if @current >= 3
     @pagination['<'] = @current - 1 if @current != 1
 
     if @current + 2 >= @max_page
@@ -31,7 +33,7 @@ class IndexController < ApplicationController
     end
 
     @pagination['>'] = @current + 1 if @current != @max_page
-    @pagination['最後'] = @max_page if @current <= @max_page - 3
+    @pagination['>>'] = @max_page if @current <= @max_page - 3
 
     c_page = @page - 1
     document_id = page_ids[c_page]
@@ -45,14 +47,17 @@ class IndexController < ApplicationController
     @last_user = @users.sort_by {|v| v.created_at }.reverse.last
   end
 
+
   def show
   end
+
 
   def edit
     @post_user = UserForm.new
     @post_user.id = @user[:documentId]
     p @post_user
   end
+
 
   def update
     p = update_user_params
@@ -62,12 +67,14 @@ class IndexController < ApplicationController
     redirect_back(fallback_location: index_index_path)
   end
 
+
   private
 
   def set_user
     @user = Firestore::LoginUser.find(params[:id])
     p @user
   end
+
 
   def update_user_params
     params.require(:user_form).permit(:nickname, :profile_text)

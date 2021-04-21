@@ -86,7 +86,7 @@
 
             <% @pagination.each do |key, value| %>
               <li class="page-item<%= ' active' if value == @current %>">
-                <%= link_to key, article_index_path(page: value, document_id: @last_article.document_id), class: 'page-link' %>
+                <%= link_to key, article_index_path(page: value), class: 'page-link' %>
               </li>
             <% end %>
 
