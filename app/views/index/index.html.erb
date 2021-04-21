@@ -64,6 +64,7 @@
                 <td><%= user.data[:age] %></td>
                 <td><%= user.data[:status] %></td>
                 <td>
+                  <%= user.document_id %><br>
                   <%= user.data[:profile_text] %>
                 </td>
                 <td>
@@ -89,7 +90,7 @@
 
             <% @pagination.each do |key, value| %>
               <li class="page-item<%= ' active' if value == @current %>">
-                <%= link_to key, index_index_path(page: value, document_id: @last_user.document_id), class: 'page-link' %>
+                <%= link_to key, index_index_path(page: value), class: 'page-link' %>
               </li>
             <% end %>
 

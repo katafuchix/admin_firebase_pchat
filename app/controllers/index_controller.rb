@@ -3,20 +3,21 @@ class IndexController < ApplicationController
 
   def index
     @page = (params['page'] || 1).to_i
-    @created_at = params['created_at'] || ''
-    @document_id = params['document_id'] || ''
 
     firestore = Firestore::Base.client
 
-    users_ref = Firestore::LoginUser.repo
-    item_total =  Firestore::LoginUser.all.size #users_ref.get.map{|item| item[:id]}.size
+    users_ref  = Firestore::LoginUser.repo
+    all_list   = Firestore::LoginUser.all
+    item_total = all_list.size
+    page_ids   = all_list.map { |user| user[:documentId] }.each_slice(20).map { |n| n.first }
+    #p page_ids
 
     all_page = (item_total / 20).ceil
 
     @max_page = all_page
     @current = @page
     @pagination = {}
-    @pagination['â‰ª'] = 1 if @current >= 3
+    @pagination['最初'] = 1 if @current >= 3
     @pagination['<'] = @current - 1 if @current != 1
 
     if @current + 2 >= @max_page
@@ -30,20 +31,12 @@ class IndexController < ApplicationController
     end
 
     @pagination['>'] = @current + 1 if @current != @max_page
-    @pagination['â‰«'] = @max_page if @current <= @max_page - 3
+    @pagination['最後'] = @max_page if @current <= @max_page - 3
 
-    #users_ref = firestore.col("login_user")
-
-    if @document_id != ''
-      user = Firestore::LoginUser.find(@document_id)
-      query = users_ref.where("created_at", '<', user[:created_at]).order("created_at", "desc").limit(20)
-    else
-      query = users_ref.order("created_at", "desc").limit(20) #.where "id", "=", 1
-    end
-
-    #query.get do |city|
-    #  puts "#{city.document_id} data: #{city.data}."
-    #end
+    c_page = @page - 1
+    document_id = page_ids[c_page]
+    user = Firestore::LoginUser.find(document_id)
+    query = users_ref.where("created_at", '<=', user[:created_at]).order("created_at", "desc").limit(20)
 
     @users = query.get
     #p @users.sort_by {|v| v.created_at }.sort.reverse
