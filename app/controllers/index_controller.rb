@@ -55,16 +55,19 @@ class IndexController < ApplicationController
   def edit
     @post_user = UserForm.new
     @post_user.id = @user[:documentId]
-    p @post_user
   end
 
 
   def update
-    p = update_user_params
-    p update_user_params
+    params = update_user_params
 
-    #flash[:notice] = 'プロフィールを更新しました。'
-    redirect_back(fallback_location: index_index_path)
+    @post_user = UserForm.new
+    @post_user.id = @user[:documentId]
+    @post_user.nickname = params[:nickname]
+    @post_user.profile_text = params[:profile_text]
+
+    Firestore::LoginUser.update(@post_user)
+    redirect_to action: :show, id: @user[:documentId]
   end
 
 
@@ -72,7 +75,6 @@ class IndexController < ApplicationController
 
   def set_user
     @user = Firestore::LoginUser.find(params[:id])
-    p @user
   end
 
 

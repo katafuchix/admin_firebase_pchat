@@ -16,4 +16,13 @@ class Firestore::LoginUser < Firestore::Base
     snapshot = repo.doc(document_id).get
     snapshot.data.merge({ documentId: snapshot.document_id }) if snapshot.exists?
   end
+
+  def self.update(user_form)
+    params = user_form.attributes
+    document_id = params[:id]
+    params.delete(:id)
+    ref = repo.doc(document_id)
+    ref.update(params)
+  end
+
 end

@@ -3,12 +3,12 @@ class UserForm
   include ActiveModel::Model
 
   attribute :id, String
-  attribute :name, String
+  attribute :nickname, String
   attribute :profile_text, String
 
   validates_presence_of %i(
     id
-    name
+    nickname
     profile_text
   )
 end

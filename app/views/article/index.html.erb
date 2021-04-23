@@ -50,7 +50,7 @@
               <tbody>
 
               <% @articles.each do |article| %>
-              <tr  class="clickable-row" data-href="<%= url_for("/artocle/#{article.document_id}") %>">
+              <tr  class="clickable-row" data-href="<%= url_for("/article/#{article.document_id}") %>">
                 <td>
                   <% if article.data[:user_profile_image_url].present? %>
                     <img src="<%= article.data[:user_profile_image_url] %>" class="img img-size-64">&nbsp;&nbsp;
