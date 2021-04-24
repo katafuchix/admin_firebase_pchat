@@ -28,3 +28,10 @@ $ yarn add toastr
 $ yarn add tempusdominus-bootstrap-4
 $ yarn add jquery-ui
 ```
+
+## AdminLTE, toast
+
+- app/asset/stylesheets/application.css
+```
+何も記述しない
+```
