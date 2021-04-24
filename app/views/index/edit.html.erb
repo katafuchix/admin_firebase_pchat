@@ -39,7 +39,7 @@
           <div class="card-body">
             <%= render partial: 'tab' %>
 
-            <%= form_with(model: @post_user, :url => {:action => :update }, :method => :patch , multipart: true) do |form| %>
+            <%= form_with(model: @post_user, :url => {:action => :update_profile_image } , multipart: true) do |form| %>
 
             <!-- row -->
             <div class="row">
@@ -50,11 +50,54 @@
                   <% else %>
                     <%= image_tag 'user_profile_default_icon/no_avatar.png', class: "img img-size-64" %>
                   <% end %>
-                  <br>
                 </div>
               </div>
             </div>
             <!-- /.row -->
+
+            <!-- row -->
+            <div class="row">
+              <div class="col-md-4">
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="custom-file">
+                      <input type="file" name="image" class="custom-file-input" id="image">
+                      <label class="custom-file-label" for="image" id="image_label">Choose file</label>
+                    </div>
+                    <div class="input-group-append">
+                      <span class="input-group-text" id="upload_button">Upload</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.row -->
+
+            <% end %>
+
+            <script>
+              $(function () {
+                $('#image').on('change', function() {
+                  if ( $('#image').val() == '' )  return;
+
+                  var imagefile = $('#image').prop('files')[0];
+                  //console.log(imagefile);
+                  $('#image_label').text(imagefile.name);
+
+                  var reader = new FileReader();
+                  reader.onload = function() {
+                      $('#preview').attr('src', reader.result);
+                  }
+                  reader.readAsDataURL(imagefile);
+                });
+
+                $('#upload_button').on('click', function() {
+                    $('#upload_button').parents('form').submit();
+                });
+              })
+            </script>
+            
+            <%= form_with(model: @post_user, :url => {:action => :update }, :method => :patch , multipart: true) do |form| %>
 
             <!-- row -->
             <div class="row">

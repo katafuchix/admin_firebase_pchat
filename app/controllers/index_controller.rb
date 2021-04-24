@@ -1,5 +1,5 @@
 class IndexController < ApplicationController
-  before_action :set_user, only: [:show, :destroy, :edit, :update,]
+  before_action :set_user, only: [:show, :destroy, :edit, :update, :update_profile_image]
 
   def index
     @page = (params['page'] || 1).to_i
@@ -41,9 +41,6 @@ class IndexController < ApplicationController
     query = users_ref.where("created_at", '<=', user[:created_at]).order("created_at", "desc").limit(20)
 
     @users = query.get
-    #p @users.sort_by {|v| v.created_at }.sort.reverse
-    #p @users.sort_by {|v| v.created_at }.map{|item| item[:nickname]}
-    #p @users.sort_by {|v| v.created_at }.reverse.last
     @last_user = @users.sort_by {|v| v.created_at }.reverse.last
   end
 
@@ -74,6 +71,19 @@ class IndexController < ApplicationController
     redirect_to action: :show, id: @user[:documentId]
   end
 
+
+  # プロフィール画像の登録、更新
+  # PUT /users/1/update_profile_image
+  def update_profile_image
+    p params[:image]
+    imageFile = params[:image]
+
+    #file = bucket.create_file(imageFile.tempfile,"ProfilePhoto_test/1/avarar.jpg", acl: "public")
+    file = Firestorage::ProfilePhoto.upload(imageFile)
+    p 'file'
+    p file
+
+  end
 
   private
 

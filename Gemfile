@@ -49,5 +49,6 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "google-cloud-firestore"
+gem "google-cloud-storage"
 #gem "kaminari"
 gem 'virtus'
