@@ -70,8 +70,11 @@ import 'jquery-ui/themes/base/theme.css';
 const webpack = require('webpack')
 environment.plugins.prepend('Provide',
   new webpack.ProvidePlugin({
-    $: 'admin-lte/plugins/jquery/jquery',
-    jQuery: 'admin-lte/plugins/jquery/jquery',
+    //$: 'admin-lte/plugins/jquery/jquery',      // admin-lteのjQueryは何故か使えない
+    //jQuery: 'admin-lte/plugins/jquery/jquery',
+    $: 'jquery/src/jquery',
+    jQuery: 'jquery/src/jquery',
+    Popper: 'popper.js',
     moment: 'moment/moment'
   })
 )
