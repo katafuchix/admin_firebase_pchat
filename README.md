@@ -10,5 +10,21 @@ application up and running.
 # setup
 
 ```
-$ bundle install --path vender/bundle 
+$ bundle install --path vendor/bundle
+$ bundle exec rails new . --skip-action-mailer --skip-active-storage --skip-action-cable 
+$ bundle install --path vendor/bundle  
+```
+
+## yarn
+
+```
+$ yarn install --check-files
+$ yarn add admin-lte@3.0.5
+$ yarn add jquery
+$ yarn add popper.js
+$ yarn add @fortawesome/fontawesome-free
+$ yarn add font-awesome
+$ yarn add toastr
+$ yarn add tempusdominus-bootstrap-4
+$ yarn add jquery-ui
 ```
