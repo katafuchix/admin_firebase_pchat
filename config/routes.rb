@@ -9,5 +9,5 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :article, only: [:index]
+  resources :article, only: [:index, :show, :edit, :update, :destory]
 end

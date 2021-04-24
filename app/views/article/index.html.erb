@@ -41,10 +41,9 @@
               <thead>
               <tr>
                 <th>name</th>
-                <th>age</th>
                 <th>profile text</th>
+                <th>status</th>
                 <th>created at</th>
-                <th>last login</th>
               </tr>
               </thead>
               <tbody>
@@ -59,17 +58,14 @@
                   <% end %>
                   <%= article.data[:user_nickname] %>
                 </td>
-                <td><%= article.data[:status] %></td>
                 <td>
                   <%= article.data[:text] %>
                 </td>
                 <td>
-                    <%= article.data[:created_at] %>
+                  <%= Firestore::Article.statuses[article.data[:status]] if article.data[:status].present? %>
                 </td>
                 <td>
-                  <a href="#" class="text-muted">
-                    <%= article.data[:last_login_date] %>
-                  </a>
+                    <%= article.data[:created_at].strftime("%Y-%m-%d %H:%M") %>
                 </td>
               </tr>
               <% end %>

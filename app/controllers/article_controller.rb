@@ -1,4 +1,6 @@
 class ArticleController < ApplicationController
+  before_action :set_article, only: [:show, :destroy, :edit, :update]
+
   def index
     @page = (params['page'] || 1).to_i
 
@@ -42,6 +44,37 @@ class ArticleController < ApplicationController
   end
 
   def show
+  end
+
+  def edit
+    @post_article = ArticleForm.new
+    @post_article.id = @article[:documentId]
+  end
+
+  def update
+    params = update_article_params
+
+    @post_article = ArticleForm.new
+    @post_article.id          = @article[:documentId]
+    @post_article.text        = params[:text]
+    @post_article.status      = params[:status]
+
+    Firestore::Article.update(@post_article)
+    flash[:notice] = '更新しました'
+    redirect_to action: :show, id: @article[:documentId]
+  end
+
+  private
+
+  def set_article
+    @article = Firestore::Article.find(params[:id])
+    @user = Firestore::LoginUser.find(@article[:uid])
+    p @article
+  end
+
+
+  def update_article_params
+    params.require(:article_form).permit(:text, :status)
   end
 
 end

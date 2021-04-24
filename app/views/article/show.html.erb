@@ -1,0 +1,131 @@
+<!-- Content Header (Page header) -->
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark"></h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"></li>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<div class="content">
+  <div class="container-fluid">
+
+    <div class="row">
+
+      <!-- /.col-md-6 -->
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-header border-0">
+            <h3 class="card-title">Article</h3>
+            <div class="card-tools">
+              <a href="#" class="btn btn-tool btn-sm">
+                <i class="fas fa-download"></i>
+              </a>
+              <a href="#" class="btn btn-tool btn-sm">
+                <i class="fas fa-bars"></i>
+              </a>
+            </div>
+          </div>
+          <div class="card-body">
+            <%= render partial: 'tab' %>
+
+            <!-- row -->
+            <div class="row">
+              <div class="col-md-2">
+                <div class="form-group">
+                  <% if @user.present? && @user[:profile_image_url].present? %>
+                    <a href="<%= url_for("/index/#{@article[:uid]}") %>" target="_blank">
+                      <img src="<%= @article[:user_profile_image_url] %>" class="img img-size-64">
+                    </a>
+                  <% else %>
+                    <%= image_tag 'user_profile_default_icon/no_avatar.png', class: "img img-size-64" %>
+                  <% end %>
+                  <br>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                  <label class="control-label">ニックネーム</label>
+                  <div class="col-xs-8">
+                    <a href="<%= url_for("/index/#{@article[:uid]}") %>" target="_blank">
+                      <%= @article[:user_nickname] %>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.row -->
+
+            <!-- row -->
+            <div class="row">
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label">年齢</label>
+                  <div class="col-xs-8"><%= @user[:age] if @user.present? %></div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label">性別</label>
+                  <div class="col-xs-8"><%= Firestore::LoginUser.genders[@user[:sex]] if @user.present? && @user[:sex].present? %></div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label">居住地</label>
+                  <div class="col-xs-4"><%= Firestore::LoginUser.prefectures[@user[:prefecture_id]] if @user.present? && @user[:prefecture_id].present? %></div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label">ステータス</label>
+                  <div class="col-xs-4"><%= Firestore::LoginUser.statuses[@article[:status]] if @user.present? && @article[:status].present? %></div>
+                </div>
+              </div>
+            </div>
+            <!-- /.row -->
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group"></div>
+              </div>
+            </div>
+
+            <!-- row -->
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label class="control-label">書き込み</label>
+                  <div class="col-xs-4"><%= @article[:text] %></div>
+                </div>
+              </div>
+            </div>
+            <!-- /.row -->
+
+          </div>
+        </div>
+        <!-- /.card -->
+
+        <div class="card-footer clearfix">
+          <ul class="pagination justify-content-center">
+          </ul>
+        </div>
+
+      </div>
+      <!-- /.col-md-6 -->
+    </div>
+    <!-- /.row -->
+
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->

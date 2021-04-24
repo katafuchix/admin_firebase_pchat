@@ -68,6 +68,7 @@ class IndexController < ApplicationController
     @post_user.status         = params[:status]
 
     Firestore::LoginUser.update(@post_user)
+    flash[:notice] = '更新しました'
     redirect_to action: :show, id: @user[:documentId]
   end
 

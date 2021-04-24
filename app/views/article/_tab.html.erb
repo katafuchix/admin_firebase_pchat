@@ -1,0 +1,14 @@
+<div class="btn-group w-100 mb-2">
+  <a class="btn btn-info" href="<%= url_for("/article/#{@article[:documentId]}") %>" data-filter="all"> <i class="fas fa fa-file"></i> </a>
+  <a class="btn btn-info" href="<%= url_for("/article/#{@article[:documentId]}/edit") %>" data-filter="3"> <i class="far fa-edit"></i> </a>
+  <a class="btn btn-info" href="<%= url_for("/article/#{@article[:documentId]}/edit") %>" data-filter="3"> <i class="far fa-comments"></i> </a>
+</div>
+<script>
+  $(function () {
+    var url = window.location;
+    //console.log(url);
+    $('div.btn-group a').filter(function() {
+        return this.pathname == url.pathname //|| url.href.indexOf(this.href) == 0;
+    }).addClass('active');
+  });
+</script>
