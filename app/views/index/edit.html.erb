@@ -58,26 +58,46 @@
 
             <!-- row -->
             <div class="row">
-              <div class="col-md-2">
+              <div class="col-md-3">
                 <div class="form-group">
                   <label class="control-label">年齢</label>
-                  <div class="col-xs-8"><%= @user[:age] %></div>
+                  <div class="col-xs-8">
+                    <%= form.number_field :age, value: @user[:age].present? ? @user[:age] : 0, class: "form-control" , required: true %>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-2">
+              <div class="col-md-3">
                 <div class="form-group">
                   <label class="control-label">性別</label>
-                  <div class="col-xs-8"><%= @user[:sex] %></div>
+                  <div class="col-xs-8">
+                    <%= form.select :sex, Firestore::LoginUser.genders.each_with_index.map {|name, index| [name,index]}  , {selected: @user[:sex].present? ? @user[:sex] : 0 }, {class: "custom-select" , required: true } %>
+                  </div>
                 </div>
               </div>
-              <div class="col-md-8">
+              <div class="col-md-3">
                 <div class="form-group">
                   <label class="control-label">居住地</label>
-                  <div class="col-xs-4"><%= @user[:prefecture_id] %></div>
+                  <div class="col-xs-4">
+                    <%= form.select :prefecture_id, Firestore::LoginUser.prefectures.each_with_index.map {|name, index| [name,index]}  , {selected: @user[:prefecture_id].present? ? @user[:prefecture_id] : 0 }, {class: "custom-select" , required: true } %>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label">ステータス</label>
+                  <div class="col-xs-4">
+                    <%= form.select :status, Firestore::LoginUser.statuses.each_with_index.map {|name, index| [name,index]}  , {selected: @user[:status].present? ? @user[:status] : 0 }, {class: "custom-select" , required: true } %>
+                  </div>
                 </div>
               </div>
             </div>
             <!-- /.row -->
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group"></div>
+              </div>
+            </div>
 
             <!-- row -->
             <div class="row">
@@ -98,11 +118,6 @@
                 </div>
               </div>
             </div>
-
-            <div class="form-group col-sm-6">
-                <%= form.select :role, Firestore::LoginUser.prefectures.each_with_index.map {|name, index| [name,index]}  , {selected: 'admin' }, {class: "custom-select" , required: true } %>
-            </div>
-
             <!-- /.row -->
 
             <%= form.submit '更新' , class:"btn btn-sm btn-primary" %>

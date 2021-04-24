@@ -62,9 +62,13 @@ class IndexController < ApplicationController
     params = update_user_params
 
     @post_user = UserForm.new
-    @post_user.id = @user[:documentId]
-    @post_user.nickname = params[:nickname]
-    @post_user.profile_text = params[:profile_text]
+    @post_user.id             = @user[:documentId]
+    @post_user.nickname       = params[:nickname]
+    @post_user.profile_text   = params[:profile_text]
+    @post_user.age            = params[:age]
+    @post_user.sex            = params[:sex]
+    @post_user.prefecture_id  = params[:prefecture_id]
+    @post_user.status         = params[:status]
 
     Firestore::LoginUser.update(@post_user)
     redirect_to action: :show, id: @user[:documentId]
@@ -75,11 +79,12 @@ class IndexController < ApplicationController
 
   def set_user
     @user = Firestore::LoginUser.find(params[:id])
+    p @user
   end
 
 
   def update_user_params
-    params.require(:user_form).permit(:nickname, :profile_text)
+    params.require(:user_form).permit(:nickname, :profile_text, :status, :age, :sex, :prefecture_id)
   end
 
 end

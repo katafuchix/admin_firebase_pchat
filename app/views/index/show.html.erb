@@ -56,26 +56,38 @@
 
             <!-- row -->
             <div class="row">
-              <div class="col-md-2">
+              <div class="col-md-3">
                 <div class="form-group">
                   <label class="control-label">年齢</label>
                   <div class="col-xs-8"><%= @user[:age] %></div>
                 </div>
               </div>
-              <div class="col-md-2">
+              <div class="col-md-3">
                 <div class="form-group">
                   <label class="control-label">性別</label>
-                  <div class="col-xs-8"><%= @user[:sex] %></div>
+                  <div class="col-xs-8"><%= Firestore::LoginUser.genders[@user[:sex]] if @user[:sex].present? %></div>
                 </div>
               </div>
-              <div class="col-md-8">
+              <div class="col-md-3">
                 <div class="form-group">
                   <label class="control-label">居住地</label>
-                  <div class="col-xs-4"><%= @user[:prefecture_id] %></div>
+                  <div class="col-xs-4"><%= Firestore::LoginUser.prefectures[@user[:prefecture_id]] if @user[:prefecture_id].present? %></div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label class="control-label">ステータス</label>
+                  <div class="col-xs-4"><%= Firestore::LoginUser.statuses[@user[:status]] if @user[:status].present? %></div>
                 </div>
               </div>
             </div>
             <!-- /.row -->
+
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group"></div>
+              </div>
+            </div>
 
             <!-- row -->
             <div class="row">
