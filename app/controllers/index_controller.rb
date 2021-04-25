@@ -1,5 +1,5 @@
 class IndexController < ApplicationController
-  before_action :set_user, only: [:show, :destroy, :edit, :update, :update_profile_image]
+  before_action :set_user, only: [:show, :destroy, :edit, :update, :update_profile_image, :articles, :rooms]
 
   def index
     @page = (params['page'] || 1).to_i
@@ -41,7 +41,6 @@ class IndexController < ApplicationController
     query = users_ref.where("created_at", '<=', user[:created_at]).order("created_at", "desc").limit(20)
 
     @users = query.get
-    @last_user = @users.sort_by {|v| v.created_at }.reverse.last
   end
 
 
@@ -85,6 +84,21 @@ class IndexController < ApplicationController
     p file
 
   end
+
+
+  def articles
+    @articles = Firestore::Article.find_by_uid(@user[:documentId])
+  end
+
+
+  def rooms
+    @rooms = Firestore::ChatRoom.find_by_uid(@user[:documentId]).sort_by { |h| h[:created_at].to_i }
+    for room in @rooms
+      userId = room[:members].keys.select { |v| v.to_s != @user[:documentId] }.first
+      room[:user] = Firestore::LoginUser.find(userId) if userId.present?
+    end
+  end
+
 
   private
 

@@ -42,8 +42,8 @@
               <tr>
                 <th>name</th>
                 <th>age</th>
-                <th>status</th>
                 <th>profile text</th>
+                <th>status</th>
                 <th>created at</th>
                 <th>last login</th>
               </tr>
@@ -62,10 +62,10 @@
                   <%= user.data[:nickname] %>
                 </td>
                 <td><%= user.data[:age] %></td>
-                <td><%= user.data[:status] %></td>
                 <td>
                   <%= user.data[:profile_text] %>
                 </td>
+                <td><%= Firestore::LoginUser.statuses[user.data[:status]] if user.data[:status].present? %></td>
                 <td>
                     <%= user.data[:created_at].strftime("%Y-%m-%d %H:%M") %>
                 </td>

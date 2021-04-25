@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     member do
       patch :update_profile_image
       post :update_profile_image
+      get :articles
+      get :rooms
     end
   end
 

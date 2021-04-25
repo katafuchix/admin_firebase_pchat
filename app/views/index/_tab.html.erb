@@ -1,8 +1,8 @@
 <div class="btn-group w-100 mb-2">
   <a class="btn btn-info" href="<%= url_for("/index/#{@user[:documentId]}") %>" data-filter="all"> <i class="fas fa-user"></i> </a>
   <a class="btn btn-info" href="<%= url_for("/index/#{@user[:documentId]}/edit") %>" data-filter="1"> <i class="fas fa-user-edit"></i> </a>
-  <a class="btn btn-info" href="<%= url_for("/index/#{@user[:documentId]}/edit") %>" data-filter="3"> <i class="far fa-edit"></i> </a>
-  <a class="btn btn-info" href="<%= url_for("/index/#{@user[:documentId]}/edit") %>" data-filter="3"> <i class="far fa-comments"></i> </a>
+  <a class="btn btn-info" href="<%= url_for("/index/#{@user[:documentId]}/articles") %>" data-filter="2"> <i class="far fa-edit"></i> </a>
+  <a class="btn btn-info" href="<%= url_for("/index/#{@user[:documentId]}/rooms") %>" data-filter="3"> <i class="far fa-comments"></i> </a>
 </div>
 <script>
   $(function () {
