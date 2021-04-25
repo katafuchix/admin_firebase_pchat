@@ -12,4 +12,5 @@ Rails.application.routes.draw do
   end
 
   resources :article, only: [:index, :show, :edit, :update, :destory]
+  resources :room, only: [:index, :show]
 end

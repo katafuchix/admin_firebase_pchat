@@ -1,5 +1,5 @@
-class IndexController < ApplicationController
-  before_action :set_user, only: [:show, :destroy, :edit, :update, :update_profile_image, :articles, :rooms]
+class RoomController < ApplicationController
+  before_action :set_room, only: [:show, :destroy, :edit, :update]
 
   def index
     @page = (params['page'] || 1).to_i
@@ -45,68 +45,29 @@ class IndexController < ApplicationController
 
 
   def show
-  end
+    document_id = params[:id]
+    @messages = Firestore::ChatRoom.messages(document_id)
+    @owner  = Firestore::LoginUser.find(@room[:owner])
+    userId  = @room[:members].keys.select { |v| v.to_s != @room[:owner] }.first
+    @member = Firestore::LoginUser.find(userId) if userId.present?
 
-
-  def edit
-    @post_user = UserForm.new
-    @post_user.id = @user[:documentId]
-  end
-
-
-  def update
-    params = update_user_params
-
-    @post_user = UserForm.new
-    @post_user.id             = @user[:documentId]
-    @post_user.nickname       = params[:nickname]
-    @post_user.profile_text   = params[:profile_text]
-    @post_user.age            = params[:age]
-    @post_user.sex            = params[:sex]
-    @post_user.prefecture_id  = params[:prefecture_id]
-    @post_user.status         = params[:status]
-
-    Firestore::LoginUser.update(@post_user)
-    flash[:notice] = '更新しました'
-    redirect_to action: :show, id: @user[:documentId]
-  end
-
-
-  # プロフィール画像の登録、更新
-  # PUT /users/1/update_profile_image
-  def update_profile_image
-    p params[:image]
-    imageFile = params[:image]
-
-    #file = bucket.create_file(imageFile.tempfile,"ProfilePhoto_test/1/avarar.jpg", acl: "public")
-    file = Firestorage::ProfilePhoto.upload(imageFile)
-    p 'file'
-    p file
-
-  end
-
-
-  def articles
-    @articles = Firestore::Article.find_by_uid(@user[:documentId])
   end
 
 
   def rooms
-    @rooms = Firestore::ChatRoom.find_by_uid(@user[:documentId])
-    @rooms = @rooms.sort_by { |h| h[:created_at] }.reverse
+    @rooms = Firestore::ChatRoom.find_by_uid(@user[:documentId]).sort_by { |h| h[:created_at].to_i }
     for room in @rooms
       userId = room[:members].keys.select { |v| v.to_s != @user[:documentId] }.first
       room[:user] = Firestore::LoginUser.find(userId) if userId.present?
-      room[:count] = Firestore::ChatRoom.messages(room[:documentId]).count
     end
   end
 
 
   private
 
-  def set_user
-    @user = Firestore::LoginUser.find(params[:id])
-    p @user
+  def set_room
+    @room = Firestore::ChatRoom.find(params[:id])
+    p @room
   end
 
 

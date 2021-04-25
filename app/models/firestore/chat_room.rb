@@ -22,6 +22,13 @@ class Firestore::ChatRoom < Firestore::Base
     end
   end
 
+  def self.messages(document_id)
+    messages = repo.doc(document_id).collection('messages').get.map do |message|
+      message.data.merge({ documentId: message.document_id })
+    end
+    messages.sort_by { |e| e[:created_at] }
+  end
+
   def self.find(document_id)
     snapshot = repo.doc(document_id).get
     snapshot.data.merge({ documentId: snapshot.document_id }) if snapshot.exists?

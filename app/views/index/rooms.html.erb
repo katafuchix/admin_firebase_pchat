@@ -26,7 +26,7 @@
 
         <div class="card">
           <div class="card-header border-0">
-            <h3 class="card-title">Users</h3>
+            <h3 class="card-title">ChatRooms</h3>
             <div class="card-tools">
               <a href="#" class="btn btn-tool btn-sm">
                 <i class="fas fa-download"></i>
@@ -44,7 +44,7 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <% if @user[:profile_image_url].present? %>
-                    <img src="<%= @user[:profile_image_url] %>" class="img img-size-64">&nbsp;&nbsp;
+                    <img src="<%= @user[:profile_image_url] %>" class="img img-size-64">
                   <% else %>
                     <%= image_tag 'user_profile_default_icon/no_avatar.png', class: "img img-size-64" %>
                   <% end %>
@@ -92,7 +92,7 @@
             <% @rooms.each do |room| %>
             <!-- row -->
             <hr>
-            <div class="row">
+            <div class="row" data-href="<%= url_for("/room/#{room[:documentId]}") %>">
               <div class="col-md-2">
                 <div class="col-xs-4">
                   <% if room[:user][:profile_image_url].present? %>
@@ -103,9 +103,19 @@
                 </div>
               </div>
               <div class="col-md-2">
-                <div class="col-xs-4"><%= room[:user][:nickname] %></div>
+                <div class="col-xs-4">
+                  <a href="<%= url_for("/index/#{room[:user][:documentId]}") %>" target="_blank">
+                    <%= room[:user][:nickname] %>
+                  </a>
+                </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-5">
+                <div class="col-xs-4"><%= room[:last_update_message] %></div>
+              </div>
+              <div class="col-md-1">
+                <div class="col-xs-4"><%= room[:count] %></div>
+              </div>
+              <div class="col-md-2">
                 <div class="col-xs-4"><%= room[:created_at].strftime("%Y-%m-%d %H:%M") %></div>
               </div>
             </div>
@@ -130,3 +140,19 @@
   </div><!-- /.container-fluid -->
 </div>
 <!-- /.content -->
+
+<script>
+$(function () {
+  $('div[data-href]').addClass('clickable').click( function() {
+    url = $(this).attr('data-href');
+    window.open(url, '_blank');
+  }).find('a').hover( function() {
+      $(this).parents('div').unbind('click');
+  }, function() {
+      $(this).parents('div').click( function() {
+          url = $(this).attr('data-href');
+          window.open(url, '_blank');
+      });
+  });
+});
+</script>

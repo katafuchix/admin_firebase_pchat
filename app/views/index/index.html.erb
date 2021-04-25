@@ -51,7 +51,7 @@
               <tbody>
 
               <% @users.each do |user| %>
-              <tr class="clickable-row" data-href="<%= url_for("/index/#{user.document_id}") %>">
+              <tr class="clickable-row" data-href="<%= url_for("/index/#{user.document_id}/rooms") %>">
                 <td align="center">
                   <% if user.data[:profile_image_url].present? %>
                     <img src="<%= user.data[:profile_image_url] %>" class="img img-size-64">&nbsp;&nbsp;
