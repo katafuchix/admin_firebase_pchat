@@ -18,11 +18,25 @@ class Firestore::LoginUser < Firestore::Base
   class_attribute :repo
   self.repo = client.col COLLECTION_NAME
 
+  def self.all(nickname)
+    if nickname != ''
+      repo.where("nickname", '==', nickname).order("created_at", "desc").get.map do |user|
+          user.data.merge({ documentId: user.document_id })  # この辺はお好みでどうぞ
+      end
+    else
+      repo.order("created_at", "desc").get.map do |user|
+          user.data.merge({ documentId: user.document_id })  # この辺はお好みでどうぞ
+      end
+    end
+  end
+
+=begin
   def self.all
-    repo.order("created_at", "desc").get.map do |user|  # nameの値でソートしてuserの一覧を返す
+    repo.order("created_at", "desc").get.map do |user|
       user.data.merge({ documentId: user.document_id })  # この辺はお好みでどうぞ
     end
   end
+=end
 
   def self.find(document_id)
     snapshot = repo.doc(document_id).get

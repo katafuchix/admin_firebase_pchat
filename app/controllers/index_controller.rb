@@ -2,12 +2,12 @@ class IndexController < ApplicationController
   before_action :set_user, only: [:show, :destroy, :edit, :update, :update_profile_image, :articles, :rooms]
 
   def index
-    @page = (params['page'] || 1).to_i
 
-    firestore = Firestore::Base.client
+    @page = (params['page'] || 1).to_i
+    @nickname = params['nickname'] || ''
 
     users_ref  = Firestore::LoginUser.repo
-    all_list   = Firestore::LoginUser.all
+    all_list   = Firestore::LoginUser.all(@nickname)
     item_total = all_list.size
     page_ids   = all_list.map { |user| user[:documentId] }.each_slice(20).map { |n| n.first }
     #p page_ids
@@ -38,9 +38,19 @@ class IndexController < ApplicationController
     c_page = @page - 1
     document_id = page_ids[c_page]
     user = Firestore::LoginUser.find(document_id)
-    query = users_ref.where("created_at", '<=', user[:created_at]).order("created_at", "desc").limit(20)
+    #query = users_ref.where("created_at", '<=', user[:created_at]).order("created_at", "desc").limit(20)
+    #@user = []
 
-    @users = query.get
+    if user.present?
+      if @nickname.present?
+        query = users_ref.where("nickname", '==', @nickname).where("created_at", '<=', user[:created_at]).order("created_at", "desc").limit(20)
+        @users = query.get
+      else
+        query = users_ref.where("created_at", '<=', user[:created_at]).order("created_at", "desc").limit(20)
+        @users = query.get
+      end
+    end
+
   end
 
 

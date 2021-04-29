@@ -52,3 +52,4 @@ gem "google-cloud-firestore"
 gem "google-cloud-storage"
 #gem "kaminari"
 gem 'virtus'
+gem "ransack"
