@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       post :update_profile_image
       get :articles
       get :rooms
+      get :chat
+      post :post_message
     end
     get '/change_sakura/:id', on: :collection, action: :change_sakura
   end

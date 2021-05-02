@@ -41,4 +41,46 @@ class Firestore::ChatRoom < Firestore::Base
     ref = repo.doc(document_id)
     ref.update(params)
   end
+
+  def self.findroom(uid, sakura_uid)
+    repo.where('members.'+uid, '==', true).where('members.'+sakura_uid, '==', true).get.map do |chat_room|
+      chat_room.data.merge({ documentId: chat_room.document_id })
+    end
+  end
+
+  def self.create(uid, sakura_uid)
+    data = {}
+    data["owner"]               = sakura_uid
+    data["members"]             = {uid => true, sakura_uid => true}
+    data["unreadCounts"]        = {uid => 0, sakura_uid => 0}
+    data["created_at"]          = DateTime.now
+    data["updated_at"]          = DateTime.now
+    data["status"]              = 1
+    data["last_update_message"] = ""
+    room_doc_ref = repo.add data
+    #p 'room_doc_ref'
+    #p room_doc_ref
+    #p room_doc_ref.document_id
+    repo.doc(room_doc_ref.document_id).get
+  end
+
+  def self.post_message(uid, sakura_uid, text)
+    repo.where('members.'+uid, '==', true).where('members.'+sakura_uid, '==', true).get.map do |chat_room|
+      chat_room.data.merge({ documentId: chat_room.document_id })
+
+      unreads = {uid => true, sakura_uid => false}
+      data    = {}
+      data["sender"]      = sakura_uid
+      data["text"]        = text
+      data["created_at"]  = DateTime.now
+      data["status"]      = 1
+      data["unreads"]     = {uid => true, sakura_uid => false}
+      r =  client.col "chat_room/#{chat_room.document_id}/messages"
+      r.add(data)
+
+      room_ref = repo.doc(chat_room.document_id)
+      room_ref.set({ last_update_message: text }, merge: true)
+    end
+  end
+
 end

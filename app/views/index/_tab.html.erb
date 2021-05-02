@@ -3,6 +3,9 @@
   <a class="btn btn-info" href="<%= url_for("/index/#{@user[:documentId]}/edit") %>" data-filter="1"> <i class="fas fa-user-edit"></i> </a>
   <a class="btn btn-info" href="<%= url_for("/index/#{@user[:documentId]}/articles") %>" data-filter="2"> <i class="far fa-edit"></i> </a>
   <a class="btn btn-info" href="<%= url_for("/index/#{@user[:documentId]}/rooms") %>" data-filter="3"> <i class="far fa-comments"></i> </a>
+  <% if $sakura.present? %>
+  <a class="btn btn-info" href="<%= url_for("/index/#{@user[:documentId]}/chat") %>" data-filter="4"> <i class="fab fa-bandcamp"></i> </a>
+  <% end %>
 </div>
 <script>
   $(function () {

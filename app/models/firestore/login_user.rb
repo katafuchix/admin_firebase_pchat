@@ -20,11 +20,11 @@ class Firestore::LoginUser < Firestore::Base
 
   def self.all(nickname)
     if nickname != ''
-      repo.where("nickname", '==', nickname).order("created_at", "desc").get.map do |user|
+      repo.where("nickname", '==', nickname).where("sakura", '==', 0).order("created_at", "desc").get.map do |user|
           user.data.merge({ documentId: user.document_id })  # この辺はお好みでどうぞ
       end
     else
-      repo.order("created_at", "desc").get.map do |user|
+      repo.order("created_at", "desc").where("sakura", '==', 0).get.map do |user|
           user.data.merge({ documentId: user.document_id })  # この辺はお好みでどうぞ
       end
     end

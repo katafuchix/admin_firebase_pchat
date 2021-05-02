@@ -1,5 +1,5 @@
 class IndexController < ApplicationController
-  before_action :set_user, only: [:show, :destroy, :edit, :update, :update_profile_image, :articles, :rooms]
+  before_action :set_user, only: [:show, :destroy, :edit, :update, :update_profile_image, :articles, :rooms, :chat, :post_message]
 
   def index
 
@@ -52,7 +52,7 @@ class IndexController < ApplicationController
     end
 
   end
-  
+
 
   def show
   end
@@ -109,6 +109,40 @@ class IndexController < ApplicationController
       room[:user] = Firestore::LoginUser.find(userId) if userId.present?
       room[:count] = Firestore::ChatRoom.messages(room[:documentId]).count
     end
+  end
+
+
+  def chat
+    p $sakura
+    p '========'
+    @room = Firestore::ChatRoom.findroom(@user[:documentId], $sakura[:documentId])
+    p @room
+    p @room.count
+    if @room.count == 0
+      @chat_room = Firestore::ChatRoom.create(@user[:documentId], $sakura[:documentId])#.data
+    else
+      @chat_room = @room[0]
+    end
+    p "@chat_room"
+    p @chat_room
+    #exit
+    document_id = @chat_room[:documentId]
+    @messages = Firestore::ChatRoom.messages(document_id)
+    @owner  = Firestore::LoginUser.find(@chat_room[:owner])
+    userId  = @chat_room[:members].keys.select { |v| v.to_s != @chat_room[:owner] }.first
+    @member = Firestore::LoginUser.find(userId) if userId.present?
+
+  end
+
+  def post_message
+    p "@chat_room post_message"
+    @room = Firestore::ChatRoom.findroom(@user[:documentId], $sakura[:documentId])
+    @chat_room = @room[0]
+    p @chat_room
+
+    Firestore::ChatRoom.post_message(@user[:documentId], $sakura[:documentId], params[:message]) if params[:message].present?
+
+    redirect_to action: :chat
   end
 
 

@@ -1,0 +1,167 @@
+<!-- Content Header (Page header) -->
+
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark"></h1>
+      </div><!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"></li>
+        </ol>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<div class="content">
+  <div class="container-fluid">
+    <div class="row">
+
+
+      <!-- /.col-md-6 -->
+      <div class="col-lg-12">
+
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title"></h3>
+            <div class="card-tool"></div>
+          </div>
+          <!-- /.card-header -->
+
+          <div class="card-body">
+            <%= render partial: 'tab' %>
+
+            <%= form_with(model: nil, :url => {:action => :post_message } , multipart: true) do |form| %>
+
+            <div class="row">
+              <div class="col-sm-6">
+                <!-- textarea -->
+                <div class="form-group">
+                  <%= form.text_area :message, value:'', class: 'form-control', size: "3x3" %>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="custom-file">
+                      <input type="file" name="image" class="custom-file-input" id="image">
+                      <label class="custom-file-label" for="image" id="image_label">Choose file</label>
+                    </div>
+                    <div class="input-group-append">
+                      <span class="input-group-text" id="upload_button">画像送信</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- row -->
+            <div class="row">
+              <div class="col-md-5"></div>
+              <div class="col-md-1">
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-append">
+                      <span class="input-group-text" id="text_button">送信</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.row -->
+
+            <% end %>
+
+<script>
+  $(function () {
+    $('#text_button').on('click', function() {
+        $('#text_button').parents('form').submit();
+    });
+
+    $('#image').on('change', function() {
+      if ( $('#image').val() == '' )  return;
+
+      var imagefile = $('#image').prop('files')[0];
+      //console.log(imagefile);
+      $('#image_label').text(imagefile.name);
+
+      var reader = new FileReader();
+      reader.onload = function() {
+          $('#preview').attr('src', reader.result);
+      }
+      reader.readAsDataURL(imagefile);
+    });
+
+    $('#upload_button').on('click', function() {
+        $('#upload_button').parents('form').submit();
+    });
+  })
+</script>
+
+
+
+            <% @messages.each do |message| %>
+            <!-- Conversations are loaded here -->
+              <!-- Message. Default to the left -->
+              <div class="direct-chat-msg <%= "right" if message[:sender] == @chat_room[:owner] %>">
+                <div class="direct-chat-infos clearfix">
+                  <span class="direct-chat-name float-<%= "right" if message[:sender] == @chat_room[:owner] %>"">
+                    <% if message[:sender] == @chat_room[:owner] %>
+                      <%= @owner[:nickname] %>
+                    <% else %>
+                      <%= @member[:nickname] %>
+                    <% end %>
+                  </span>
+                  <span class="direct-chat-timestamp float-<%= message[:sender] == @chat_room[:owner] ? "left" : "right"%>""><%= message[:created_at].strftime('%m-%d %H:%M:%S') %></span>
+                </div>
+                <!-- /.direct-chat-infos -->
+                <% if message[:sender] == @chat_room[:owner] %>
+                  <% if @owner[:profile_image_url].present? %>
+                    <img src="<%= @owner[:profile_image_url] %>" class="direct-chat-img">
+                  <% else %>
+                    <%= image_tag 'user_profile_default_icon/no_avatar.png', class: "direct-chat-img" %>
+                  <% end %>
+                <% else %>
+                  <% if @member[:profile_image_url].present? %>
+                    <img src="<%= @member[:profile_image_url] %>" class="direct-chat-img">
+                  <% else %>
+                    <%= image_tag 'user_profile_default_icon/no_avatar.png', class: "direct-chat-img" %>
+                  <% end %>
+                <% end %>
+
+                <!-- /.direct-chat-img -->
+                <div class="direct-chat-text">
+                  <% if message[:imageURL].present? then %>
+                    <a href="<%= message[:imageURL] %>" target="_blank">
+                      <img src="<%= message[:imageURL] %>" width="200" border="0">
+                    </a>
+                  <% else %>
+                    <%= message[:text].gsub(/(?:\n\r?|\r\n?)/, '<br>').html_safe %>
+                  <% end %>
+                </div>
+                <!-- /.direct-chat-text -->
+              </div>
+              <!-- /.direct-chat-msg -->
+            <% end %>
+            <!--/.direct-chat-messages-->
+
+
+          <!-- /.card-body -->
+          </div>
+
+          <div class="card-footer clearfix">
+          </div>
+
+        </div>
+
+      </div>
+      <!-- /.col-md-6 -->
+    </div>
+    <!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content -->
