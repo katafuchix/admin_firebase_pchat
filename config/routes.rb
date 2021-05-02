@@ -9,6 +9,10 @@ Rails.application.routes.draw do
       get :articles
       get :rooms
     end
+    get '/change_sakura/:id', on: :collection, action: :change_sakura
+  end
+
+  resources :sakura, only: [:index] do
   end
 
   resources :article, only: [:index, :show, :edit, :update, :destory]

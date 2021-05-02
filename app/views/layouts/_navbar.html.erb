@@ -29,12 +29,58 @@
   <ul class="navbar-nav ml-auto">
     <!-- Messages Dropdown Menu -->
     <li class="nav-item dropdown">
+      <a class="nav-link" data-toggle="dropdown" href="#">
+        <i class="far fa-address-card"></i>
+        <span id="select_user_nickname">
+          <%= $sakura[:nickname]  if $sakura.present? %>
+          <%= "クリックしてユーザーを選択してください" if $sakura.nil? %>
+        </span>
+        <!-- <span class="badge badge-danger navbar-badge">3</span> -->
+      </a>
       <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-        <div class="dropdown-divider"></div>
-        <div class="dropdown-divider"></div>
-        <div class="dropdown-divider"></div>
+        <% $sakuras.each do |user| %>
+          <a data-id="<%= user[:documentId] %>" class="dropdown-item">
+            <!-- Message Start -->
+            <div class="media">
+              <% if user[:profile_image_url].present? %>
+                <img src="<%= user[:profile_image_url] %>" class="img-size-50 mr-3 img-circle">
+              <% else %>
+                <%= image_tag 'user_profile_default_icon/no_avatar.png', class: "img-size-50 mr-3 img-circle" %>
+              <% end %>
+              <div class="media-body">
+                <h3 class="dropdown-item-title">
+                  <%= user[:nickname] %>
+                </h3>
+              </div>
+            </div>
+            <!-- Message End -->
+          </a>
+          <div class="dropdown-divider"></div>
+        <% end %>
       </div>
     </li>
+
+    <script>
+    $(function () {
+      // ユーザー切り替え
+      $('.dropdown-item').click(function() {
+          $.ajax({
+            url: '/index/change_sakura/' + $(this).attr('data-id'),
+            dataType: 'json',
+            type: 'GET',
+            cache: true,
+            success: function(data) {
+              console.log(data)
+              location.href = '/index'
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) {
+              //response(['']);
+            }
+          });
+      })
+    });
+    </script>
+
     <!-- Notifications Dropdown Menu -->
     <li class="nav-item dropdown">
     </li>

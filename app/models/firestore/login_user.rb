@@ -30,6 +30,21 @@ class Firestore::LoginUser < Firestore::Base
     end
   end
 
+  def self.sakura(nickname='')
+    if nickname != ''
+      repo.where("nickname", '==', nickname).where("sakura", '==', 1).order("created_at", "desc").get.map do |user|
+          user.data.merge({ documentId: user.document_id })  # この辺はお好みでどうぞ
+      end
+    else
+      repo.where("sakura", '==', 1).order("created_at", "desc").get.map do |user|
+          user.data.merge({ documentId: user.document_id })  # この辺はお好みでどうぞ
+      end
+    end
+    #repo.where("sakura", '==', 1).order("created_at", "desc").get.map do |user|
+    #    user.data.merge({ documentId: user.document_id })  # この辺はお好みでどうぞ
+    #end
+  end
+
 =begin
   def self.all
     repo.order("created_at", "desc").get.map do |user|

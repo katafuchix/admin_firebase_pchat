@@ -1,4 +1,4 @@
-class IndexController < ApplicationController
+class SakuraController < ApplicationController
   before_action :set_user, only: [:show, :destroy, :edit, :update, :update_profile_image, :articles, :rooms]
 
   def index
@@ -7,7 +7,7 @@ class IndexController < ApplicationController
     @nickname = params['nickname'] || ''
 
     users_ref  = Firestore::LoginUser.repo
-    all_list   = Firestore::LoginUser.all(@nickname)
+    all_list   = Firestore::LoginUser.sakura(@nickname)
     item_total = all_list.size
     page_ids   = all_list.map { |user| user[:documentId] }.each_slice(20).map { |n| n.first }
     #p page_ids
@@ -52,7 +52,7 @@ class IndexController < ApplicationController
     end
 
   end
-  
+
 
   def show
   end
