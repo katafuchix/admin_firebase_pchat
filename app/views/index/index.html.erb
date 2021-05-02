@@ -69,7 +69,7 @@
                 <th>age</th>
                 <th>profile text</th>
                 <th>status</th>
-                <th>created at</th>
+                <!-- <th>created at</th> -->
                 <th>last login</th>
               </tr>
               </thead>
@@ -88,12 +88,13 @@
                 </td>
                 <td><%= user.data[:age] %></td>
                 <td>
+                  <%= isDummyIcon(user) %>
                   <%= user.data[:profile_text] %>
                 </td>
                 <td><%= Firestore::LoginUser.statuses[user.data[:status]] if user.data[:status].present? %></td>
-                <td>
+                <!--<td>
                     <%= user.data[:created_at].strftime("%Y-%m-%d %H:%M") %>
-                </td>
+                </td>-->
                 <td>
                   <a href="#" class="text-muted">
                     <%= user.data[:last_login_date].strftime("%Y-%m-%d %H:%M") %>

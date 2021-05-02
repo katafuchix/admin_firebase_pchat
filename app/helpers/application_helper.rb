@@ -7,4 +7,9 @@ module ApplicationHelper
       flash_messages << text.html_safe if message
     end.join("\n").html_safe
   end
+
+  def isDummyIcon(user)
+    image_tag 'sakura.png' if  user.data.key?(:sakura) && user.data[:sakura] > 0
+  end
+
 end
