@@ -106,14 +106,16 @@
                 <div class="col-xs-4">
                   <a href="<%= url_for("/index/#{room[:user][:documentId]}") %>" target="_blank">
                     <%= room[:user][:nickname] %>
-                  </a>
+                  </a> <br>  ( 未読 : <%= room[:unreadCounts].select {|k,v| k.to_s != @user[:documentId] }.values.first %> )
                 </div>
               </div>
               <div class="col-md-5">
                 <div class="col-xs-4"><%= room[:last_update_message] %></div>
               </div>
               <div class="col-md-1">
-                <div class="col-xs-4"><%= room[:count] %></div>
+                <div class="col-xs-4">
+                  <%= room[:count] %> &nbsp;&nbsp;  ( <%= room[:unreadCounts].select {|k,v| k.to_s == @user[:documentId] }.values.first %> )
+                </div>
               </div>
               <div class="col-md-2">
                 <div class="col-xs-4"><%= room[:created_at].strftime("%Y-%m-%d %H:%M") %></div>

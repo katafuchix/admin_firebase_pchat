@@ -79,7 +79,7 @@ class Firestore::ChatRoom < Firestore::Base
       r.add(data)
 
       room_ref = repo.doc(chat_room.document_id)
-      room_ref.set({ last_update_message: text }, merge: true)
+      room_ref.set({ last_update_message: text, updated_at: DateTime.now }, merge: true)
     end
   end
 

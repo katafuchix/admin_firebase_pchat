@@ -6,6 +6,6 @@ class ApplicationController < ActionController::Base
   private
 
   def set_sakura
-    $sakuras = Firestore::LoginUser.sakura if $sakuras.nil?
+    $sakuras = Firestore::LoginUser.sakura #if $sakuras.nil?
   end
 end

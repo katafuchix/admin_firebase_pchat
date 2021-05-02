@@ -113,19 +113,12 @@ class IndexController < ApplicationController
 
 
   def chat
-    p $sakura
-    p '========'
     @room = Firestore::ChatRoom.findroom(@user[:documentId], $sakura[:documentId])
-    p @room
-    p @room.count
     if @room.count == 0
       @chat_room = Firestore::ChatRoom.create(@user[:documentId], $sakura[:documentId])#.data
     else
       @chat_room = @room[0]
     end
-    p "@chat_room"
-    p @chat_room
-    #exit
     document_id = @chat_room[:documentId]
     @messages = Firestore::ChatRoom.messages(document_id)
     @owner  = Firestore::LoginUser.find(@chat_room[:owner])
@@ -135,13 +128,9 @@ class IndexController < ApplicationController
   end
 
   def post_message
-    p "@chat_room post_message"
     @room = Firestore::ChatRoom.findroom(@user[:documentId], $sakura[:documentId])
     @chat_room = @room[0]
-    p @chat_room
-
     Firestore::ChatRoom.post_message(@user[:documentId], $sakura[:documentId], params[:message]) if params[:message].present?
-
     redirect_to action: :chat
   end
 
@@ -151,6 +140,7 @@ class IndexController < ApplicationController
     user = Firestore::LoginUser.find(select_sakura_params[:id])
     if user.present?
       $sakura = user
+      Firestore::LoginUser.updateTime($sakura[:documentId])
       render json: user
       return
     end
