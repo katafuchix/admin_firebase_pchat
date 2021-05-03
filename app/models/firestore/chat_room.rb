@@ -83,4 +83,25 @@ class Firestore::ChatRoom < Firestore::Base
     end
   end
 
+  # 未読を既読に
+  def self.updateUnreads(document_id, sakura_uid)
+    room_ref = repo.doc(document_id)
+    room = room_ref.get
+    unreadCounts = room[:unreadCounts]
+    if unreadCounts[sakura_uid.intern] > 0
+      unreadCounts[sakura_uid.intern] = 0
+      room_ref.set({ unreadCounts: unreadCounts }, merge: true)
+    end
+
+    messages = repo.doc(document_id).collection('messages').get.map do |message|
+      unreads = message.data[:unreads]
+      if unreads.count == 0 || unreads[sakura_uid.intern] == false
+        next
+      end
+      unreads[sakura_uid.intern] = false
+      r =  client.col "chat_room/#{document_id}/messages"
+      m = r.doc(message.document_id)
+      m.set({ unreads: unreads }, merge: true)
+    end
+  end
 end

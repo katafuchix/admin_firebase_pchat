@@ -96,6 +96,7 @@
               <thead>
               <tr>
                 <th>name</th>
+                <th></th>
                 <th>profile text</th>
                 <th>status</th>
                 <th>created at</th>
@@ -111,7 +112,10 @@
                   <% else %>
                     <%= image_tag 'user_profile_default_icon/no_avatar.png', class: "img img-size-64" %>
                   <% end %>
-                  <%= article.data[:user_nickname] %>
+                </td>
+                <td>
+                  <%= article.data[:user_nickname] %><br>
+                  <%= $prefectures[article.data[:user_prefecture_id]] %>
                 </td>
                 <td>
                   <%= article.data[:text] %>
