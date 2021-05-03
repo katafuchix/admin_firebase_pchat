@@ -43,6 +43,16 @@ class ArticleController < ApplicationController
 
   end
 
+  def new
+  end
+
+  def create
+
+    Firestore::Article.create(params[:message])
+    flash[:notice] = '投稿しました'
+    redirect_to action: :index
+  end
+
   def show
   end
 

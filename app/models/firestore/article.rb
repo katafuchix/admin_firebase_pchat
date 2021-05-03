@@ -34,4 +34,22 @@ class Firestore::Article < Firestore::Base
     ref = repo.doc(document_id)
     ref.update(params)
   end
+
+  def self.create(text)
+    data = {}
+    data["uid"]               = $sakura[:documentId]
+    data["text"]              = text
+    data["status"]            = 1
+    data["created_at"]        = DateTime.now
+    data["user_profile_image_url"]  = $sakura[:profile_image_url]
+    data["user_prefecture_id"]      = $sakura[:prefecture_id]
+    data["user_sex"]                = $sakura[:sex]
+    data["user_nickname"]           = $sakura[:nickname]
+    data["parentKey"]         = ""
+    data["toKey"]             = ""
+    data["toUid"]             = ""
+    p data
+    doc_ref = repo.add data
+    repo.doc(doc_ref.document_id).get
+  end
 end

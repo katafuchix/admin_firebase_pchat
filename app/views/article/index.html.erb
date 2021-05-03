@@ -56,9 +56,42 @@
               <a href="#" class="btn btn-tool btn-sm">
                 <i class="fas fa-bars"></i>
               </a>
+                <!-- <%= link_to('投稿',  { action: :new },  class: "btn btn-sm btn-info float-right" ) %> -->
             </div>
           </div>
-          <div class="card-body table-responsive p-0">
+
+          <div class="card-body">
+            <% if $sakura.present? %>
+              <div class="row"></div>
+
+              <%= form_with(model: nil, :url => {:action => :create } , multipart: true) do |form| %>
+
+              <!-- row -->
+              <div class="row">
+                <div class="col-sm-1"></div>
+                <div class="col-sm-9">
+                  <!-- textarea -->
+                  <div class="form-group">
+                    <%= form.text_area :message, value:'', class: 'form-control', size: "3x3" %>
+                  </div>
+                </div>
+                <div class="col-sm-2">
+                  <div class="form-group">
+                    <div class="input-group">
+                      <div class="input-group-append">
+                        <%= form.submit '投稿' , class:"btn btn-sm btn-info" %>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- /.row -->
+
+              <% end %>
+            <% end %>
+
+
+
             <table class="table table-valign-middle table-hover">
               <thead>
               <tr>

@@ -35,46 +35,6 @@
           <div class="card-body">
             <%= render partial: 'tab' %>
 
-            <%= form_with(model: nil, :url => {:action => :post_message } , multipart: true) do |form| %>
-
-            <div class="row">
-              <div class="col-sm-6">
-                <!-- textarea -->
-                <div class="form-group">
-                  <%= form.text_area :message, value:'', class: 'form-control', size: "3x3" %>
-                </div>
-              </div>
-              <div class="col-md-6">
-                <div class="form-group">
-                  <div class="input-group">
-                    <div class="custom-file">
-                      <input type="file" name="image" class="custom-file-input" id="image">
-                      <label class="custom-file-label" for="image" id="image_label">Choose file</label>
-                    </div>
-                    <div class="input-group-append">
-                      <span class="input-group-text" id="upload_button">画像送信</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- row -->
-            <div class="row">
-              <div class="col-md-5"></div>
-              <div class="col-md-1">
-                <div class="form-group">
-                  <div class="input-group">
-                    <div class="input-group-append">
-                      <span class="input-group-text" id="text_button">送信</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- /.row -->
-
-            <% end %>
 
 <script>
   $(function () {
@@ -149,7 +109,47 @@
             <% end %>
             <!--/.direct-chat-messages-->
 
+            <%= form_with(model: nil, :url => {:action => :post_message } , multipart: true) do |form| %>
 
+            <div class="row">
+              <div class="col-sm-6">
+                <!-- textarea -->
+                <div class="form-group">
+                  <%= form.text_area :message, value:'', class: 'form-control', size: "3x3" %>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="custom-file">
+                      <input type="file" name="image" class="custom-file-input" id="image">
+                      <label class="custom-file-label" for="image" id="image_label">Choose file</label>
+                    </div>
+                    <div class="input-group-append">
+                      <span class="input-group-text" id="upload_button">画像送信</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- row -->
+            <div class="row">
+              <div class="col-md-5"></div>
+              <div class="col-md-1">
+                <div class="form-group">
+                  <div class="input-group">
+                    <div class="input-group-append">
+                      <span class="input-group-text" id="text_button">送信</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.row -->
+
+            <% end %>
+            
           <!-- /.card-body -->
           </div>
 

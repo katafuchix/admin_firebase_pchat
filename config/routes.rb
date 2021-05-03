@@ -17,6 +17,6 @@ Rails.application.routes.draw do
   resources :sakura, only: [:index] do
   end
 
-  resources :article, only: [:index, :show, :edit, :update, :destory]
+  resources :article, only: [:index, :new, :create, :show, :edit, :update, :destory]
   resources :room, only: [:index, :show]
 end
