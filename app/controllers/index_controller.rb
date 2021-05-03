@@ -104,6 +104,9 @@ class IndexController < ApplicationController
   def rooms
     @rooms = Firestore::ChatRoom.find_by_uid(@user[:documentId])
     @rooms = @rooms.sort_by { |h| h[:created_at] }.reverse
+
+    p '@rooms'
+    p @rooms
     for room in @rooms
       userId = room[:members].keys.select { |v| v.to_s != @user[:documentId] }.first
       room[:user] = Firestore::LoginUser.find(userId) if userId.present?

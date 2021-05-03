@@ -46,6 +46,16 @@
             </p>
           <% end %>
         </li>
+        <% if $sakura.present? %>
+          <li class="nav-item">
+            <a class="nav-link" href="<%= url_for("/index/#{$sakura[:documentId]}/rooms") %>">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+              <%= $sakura[:nickname] %>
+              </p>
+            </a>
+          </li>
+        <% end %>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->
