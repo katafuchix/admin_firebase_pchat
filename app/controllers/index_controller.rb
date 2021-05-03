@@ -55,6 +55,10 @@ class IndexController < ApplicationController
 
 
   def show
+    Firestore::Footprint.add(@user[:documentId], $sakura[:documentId]) if $sakura.present?
+    ts = Time.now.to_i #Date.today.to_time.to_i
+    #p ts
+    #p Time.at(ts).strftime('%Y-%m-%d')
   end
 
 
