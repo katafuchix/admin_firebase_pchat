@@ -10,6 +10,8 @@ application up and running.
 # setup
 
 ```
+$ bundle init
+$ bundle add rails
 $ bundle install --path vendor/bundle
 $ bundle exec rails new . --skip-action-mailer --skip-active-storage --skip-action-cable 
 $ bundle install --path vendor/bundle  
